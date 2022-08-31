@@ -4,14 +4,7 @@ import Notion
 Notion.init()
 Google.init()
 
-patent_searches = {
-    "Metaverse",
-    "Virtual Reality",
-    "Mixed Reality",
-    "Head Mounted Display"
-}
-
-patents_in_google = Google.get_new_patents(patent_searches)
+patents_in_google = Google.get_new_patents()
 
 for patent_in_google in patents_in_google:
     has_patent_in_notion = Notion.has_patent(patent_in_google)

@@ -10,10 +10,15 @@ import time
 
 
 def init():
+    global patent_searches
+    patent_searches = os.getenv('NOTION_PATENT_SEARCHES')
+    if patent_searches is None:
+        raise ValueError("Please assign semicolon-separated patent searches to the 'NOTION_PATENT_SEARCHES' environment variable.")
+    patent_searches = patent_searches.split(';')
     print("Initialized Google library")
 
 
-def get_new_patents(patent_searches):
+def get_new_patents():
 
     main_url = "https://patents.google.com/"
 
