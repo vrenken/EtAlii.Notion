@@ -124,6 +124,9 @@ def add_patent(patent):
                     }
                 ]
             },
+            "Type": {
+                "select": {"name": patent['Type']}
+            },
             "Filing date": {
                 "date": {"start": patent['Filing date']}
             },

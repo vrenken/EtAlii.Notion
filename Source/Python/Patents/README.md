@@ -16,4 +16,5 @@ The target database should have the following columns:
 - Filing date         (type = Date)
 - Assignee            (type = Text)
 - Inventor            (type = Text)
+- Type                (type = Text)
 
