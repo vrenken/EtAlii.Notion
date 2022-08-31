@@ -2,7 +2,18 @@
 
 Simple script to add patents from Google into a Notion database.
 
-Required are only the following environment variables:
+Before starting, make sure all required libraries are installed using pip.
+
+for example:
+
+```python
+pip install bs4
+pip install requests
+pip install pyppeteer
+pip install notion_database
+```
+
+Also required are the following environment variables:
 
 - NOTION_INTEGRATION_TOKEN
 - NOTION_PATENT_DATABASE_ID

@@ -1,12 +1,10 @@
+import asyncio
 import requests
 import html
 from bs4 import BeautifulSoup
-from google_patent_scraper import scraper_class
-import json
-import logging
 import os
-import pprint
-import time
+
+from Keywords import retrieve_patent_keywords
 
 
 def init():
@@ -18,7 +16,7 @@ def init():
     print("Initialized Google library")
 
 
-def get_new_patents():
+async def get_new_patents():
 
     main_url = "https://patents.google.com/"
 
@@ -32,7 +30,11 @@ def get_new_patents():
         main_data = res.json()
         data = main_data['results']['cluster'][0]['result']
         for entry in data:
-            item = build_result_patent(entry, patent_search, main_url)
+            item = entry['patent']
+            patent_id = item['publication_number']
+            patent_url = main_url + "patent/" + patent_id + "/en"
+            await retrieve_patent_keywords(patent_url, patent_id)
+            item = build_result_patent(item, patent_search, patent_url, patent_id)
             items.append(item)
 
         print(f"Fetching best patents from Google for search: {patent_search}")
@@ -41,18 +43,21 @@ def get_new_patents():
         main_data = res.json()
         data = main_data['results']['cluster'][0]['result']
         for entry in data:
-            item = build_result_patent(entry, patent_search, main_url)
+            item = entry['patent']
+            patent_id = item['publication_number']
+            patent_url = main_url + "patent/" + patent_id + "/en"
+            await retrieve_patent_keywords(patent_url, patent_id)
+            item = build_result_patent(item, patent_search, patent_url, patent_id)
             items.append(item)
 
     return items
 
 
-def build_result_patent(entry, patent_search, main_url):
-    item = entry['patent']
-    item['Id'] = item['publication_number']
+def build_result_patent(item, patent_search, patent_url, patent_id):
+    item['Id'] = patent_id
     item['Type'] = patent_search
     item.pop('publication_number')
-    item['Url'] = main_url + "patent/" + item['Id'] + "/en"
+    item['Url'] = patent_url
 
     print(f"Fetching patent from Google: {item['Id']}")
 
