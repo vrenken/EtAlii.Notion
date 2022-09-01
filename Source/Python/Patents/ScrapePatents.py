@@ -21,6 +21,7 @@ async def main():
             print(f"Skipping: {patent_in_google['Id']} - {patent_in_google['Title']}")
         else:
             print(f"Adding:   {patent_in_google['Id']} - {patent_in_google['Title']}")
+            patent_in_google = Keywords.add_keywords(patent_in_google)
             Notion.add_patent(patent_in_google)
 
 asyncio.get_event_loop().run_until_complete(main())

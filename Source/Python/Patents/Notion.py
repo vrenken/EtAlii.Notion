@@ -82,6 +82,12 @@ def has_patent(patent):
 
 def add_patent(patent):
     url = f'https://api.notion.com/v1/pages'
+
+    keyword_payloads = []
+
+    for keyword in patent["Keywords"]:
+        keyword_payloads.append({ "name": keyword })
+
     payload = {
         "parent": {
             "type": "database_id",
@@ -126,6 +132,9 @@ def add_patent(patent):
             },
             "Type": {
                 "select": {"name": patent['Type']}
+            },
+            "Keywords": {
+                "multi_select": keyword_payloads 
             },
             "Filing date": {
                 "date": {"start": patent['Filing date']}

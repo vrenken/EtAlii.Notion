@@ -7,6 +7,8 @@ from os.path import exists
 from pyppeteer import launch
 from keybert import KeyBERT
 
+# import Notion
+
 def init():
     global printable_characters
     printable_characters = set(string.printable)
@@ -55,6 +57,15 @@ def create_keywords():
                 for keyword, weight in keywords:
                     f.write(f"{keyword}\n")
 
+def add_keywords(patent):
+    patent_id = patent["Id"]
+    patent_file = f"{keywords_folder}/{patent_id}.txt"
+    data = ''
+    with open(patent_file, 'r') as file:
+        keywords = file.readlines()
+    keywords = [k.strip() for k in keywords]
+    patent["Keywords"] = keywords
+    return patent
 
 async def retrieve_patent_keywords(patent_url, patent_id):
 
@@ -85,6 +96,7 @@ async def retrieve_patent_keywords(patent_url, patent_id):
             text = await page.evaluate('(element) => element.textContent', texts[i])
 
             text = ''.join(filter(lambda x: x in printable_characters, text))
+            text = text.strip()
 
             file = f"{folder}/{part}.txt"
             with open(file, 'w') as f:
@@ -96,9 +108,19 @@ async def retrieve_patent_keywords(patent_url, patent_id):
 
 # local test
 # patent_url = "https://patents.google.com/patent/CN114780868A/en?q=metaverse&oq=metaverse&sort=new"
-# # patent_url = "https://patents.google.com/patent/US20220242450A1/en"
+# # # patent_url = "https://patents.google.com/patent/US20220242450A1/en"
 
 # init()
 # asyncio.get_event_loop().run_until_complete(retrieve_patent_keywords(patent_url, "CN114780868A"))
 # create_keywords()
+
+# patent = {
+#     "Id": "CN114780868A"
+# }
+
+# add_keywords(patent)
+
+# Notion.init()
+# Notion.add_patent(patent)
+# print(patent["Keywords"])
 
