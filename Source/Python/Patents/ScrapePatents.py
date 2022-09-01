@@ -7,11 +7,13 @@ import Notion
 
 async def main():
 
-    Keywords.Init()
+    Keywords.init()
     Notion.init()
     Google.init()
 
     patents_in_google = await Google.get_new_patents()
+
+    Keywords.create_keywords()
 
     for patent_in_google in patents_in_google:
         has_patent_in_notion = Notion.has_patent(patent_in_google)
