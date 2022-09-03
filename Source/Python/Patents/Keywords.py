@@ -51,7 +51,7 @@ def create_keywords():
                     content += " " + data
 
             kw_model = KeyBERT()
-            keywords = kw_model.extract_keywords(content)
+            keywords = kw_model.extract_keywords(content, keyphrase_ngram_range=(1, 3))
 
             with open(patent_file, 'w') as f:
                 for keyword, weight in keywords:
