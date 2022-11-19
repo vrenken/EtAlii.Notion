@@ -11,6 +11,7 @@ pip install bs4
 pip install requests
 pip install pyppeteer
 pip install notion_database
+pip install keybert
 ```
 
 Also required are the following environment variables:

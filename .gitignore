@@ -9,6 +9,7 @@ __pycache__/
 # Exclude the local data files created by the Python scripts.  
 Data/Keywords
 Data/Text
+Data/Images
 
 # Distribution / packaging
 .Python
